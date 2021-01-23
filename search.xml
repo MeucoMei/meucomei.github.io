@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>有效的括号</title>
+    <url>/2020/05/23/ValidParentheses/</url>
+    <content><![CDATA[<h2 id="有效的括号"><a href="#有效的括号" class="headerlink" title="有效的括号"></a>有效的括号</h2><p><strong>题目:</strong></p>
+<blockquote>
+<p>给定一个只包括 ‘(‘，’)’，’{‘，’}’，’[‘，’]’ 的字符串，判断字符串是否有效。<br>有效字符串需满足：<br>1,左括号必须用相同类型的右括号闭合。<br>2,左括号必须以正确的顺序闭合。 注意空字符串可被认为是有效字符串。<br>示例 1:<br>输入: “()” 输出: true<br>示例 2:<br>输入: “()[]{}” 输出: true<br>示例 3:<br>输入: “(]” 输出: false<br>示例 4:<br>输入: “([)]” 输出: false<br>示例 5:<br>输入: “{[]}” 输出: true</p>
+</blockquote>
+<p><strong>题解</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isValid</span><span class="params">(<span class="keyword">char</span> * s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">bool</span> ans = <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">if</span>(s)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">char</span> *<span class="built_in">stack</span> = (<span class="keyword">char</span>*)<span class="built_in">calloc</span>(<span class="built_in">strlen</span>(s)+<span class="number">1</span>, <span class="keyword">sizeof</span>(<span class="keyword">char</span>));<span class="comment">//栈列表</span></span><br><span class="line">		<span class="keyword">int</span> i, top = <span class="number">-1</span>;<span class="comment">//</span></span><br><span class="line">		<span class="keyword">for</span>(i = <span class="number">0</span>;s[i];++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(s[i] == <span class="string">'('</span>||s[i] == <span class="string">'['</span>||s[i] == <span class="string">'&#123;'</span>||top == <span class="number">-1</span>)</span><br><span class="line">				<span class="built_in">stack</span>[++top] = s[i];<span class="comment">//左括号入栈</span></span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(s[i] == <span class="built_in">stack</span>[top] + <span class="number">1</span>||s[i] == <span class="built_in">stack</span>[top] + <span class="number">2</span>)</span><br><span class="line">			<span class="comment">//'('与')'的ASCII值差1，'['与']'，'&#123;'与'&#125;'的ASCII值差2</span></span><br><span class="line">				top--;</span><br><span class="line">			<span class="keyword">else</span>&#123;</span><br><span class="line">				ans = <span class="literal">false</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(top &gt; <span class="number">-1</span>) ans = <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>解析:</strong></p>
+<ul>
+<li>思路主要是先把碰到的左括号压入栈，然后碰到相对应的右括号就出栈，最后判断是不是空栈就行了。</li>
+<li><code>top--</code>:起初我以为<code>top--</code>是把符合要求的左括号出栈。但我想了半天其实不太理解，因为那个地方数据还存在，为什么就出栈了呢。后来发现是我栈还是没学清(<del>滑稽</del> )。<br>(<del>开始自我科普</del> )因为栈分为两种:数组栈和链表栈。两个实现方法并不一样。<br>就例如在数组栈中其实数据还存在数组中，只不过不在栈中了(<del>毕竟栈是种设想出来的数据结构</del> )。并且访问不了，然后如果新加直接覆盖就行了。而链表栈中是直接free掉了。<br><font color=#ff4500)>结语: 确实写博客能理清自己的一些思路，发现自己的一些问题，毕竟讲出来才会发现你自己的不足之处，继续加油吧！</font></li>
+</ul>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>Stack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>递归的时间复杂度计算</title>
+    <url>/2020/11/06/diguifuzadu/</url>
+    <content><![CDATA[<h2 id="递归的时间复杂度计算"><a href="#递归的时间复杂度计算" class="headerlink" title="递归的时间复杂度计算"></a>递归的时间复杂度计算</h2><blockquote>
+<p><strong>例题：找出数组中的最大元素</strong><br>思路：将数组分成两个等分大小，整体的最大值是前半部分的最大值和后半部分的最大值中较大的那个</p>
+</blockquote>
+<p><strong>Code：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">helper</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; in, <span class="keyword">int</span> start, <span class="keyword">int</span> <span class="built_in">end</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (start == <span class="built_in">end</span>)<span class="keyword">return</span> in[start];</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">int</span> mid = start + ((<span class="built_in">end</span> - start) &gt;&gt; <span class="number">1</span>); <span class="comment">//不会溢出的求中点方法</span></span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">max</span>(helper(in, start, mid), helper(in, mid + <span class="number">1</span>, <span class="built_in">end</span>));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getmax</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; in)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (in.empty())<span class="keyword">throw</span>(<span class="string">"input is null"</span>);</span><br><span class="line">	<span class="keyword">return</span> helper(in, <span class="number">0</span>, in.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由递归可以得到，T(N)=T(N/2)+T(N/2)+O(1)，这里的O(1)指的是每次递归的“求中点”，“max比较操作”等等。所以T(N)=2*T(N/2)+O(1)。</p>
+<p>又，master公式求解递归的时间复杂度公式为：T(N)=a*T(N/b)+O(N^d)</p>
+<p><img src="https://img-blog.csdnimg.cn/2020110611104621.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NzgxMDE5,size_16,color_FFFFFF,t_70#pic_center" alt="图片"></p>
+<p>所以这个解法的时间复杂度为O(N^d)=O(N)</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>时间复杂度</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的第一篇文章</title>
+    <url>/2020/05/17/myfirst/</url>
+    <content><![CDATA[<h2 id="第一篇文章-随便写写。"><a href="#第一篇文章-随便写写。" class="headerlink" title="第一篇文章,随便写写。"></a>第一篇文章,随便写写。</h2><hr>
+<blockquote>
+<p>花了我<strong>整整两天</strong>,终于搞了一个博客来记录点自己的东西,例如笔记,心得,随记什么的,有空就写写。<br>现在还没完全掌握MarkDown的语法,导致也不会写的特别美观,哈哈,慢慢来。。。然后看看自己的<font
+color=red>学习目标</font>吧！</p>
+</blockquote>
+<hr>
+<blockquote>
+<ul>
+<li>微积分(马上期末了,抓紧再复习下。。)</li>
+<li>数据交流与网络 (感觉现在最迷的东西,花多点时间看看。)</li>
+<li>数据结构 (自学ing)</li>
+<li>JAVA(感觉还行,有空再看看)</li>
+<li><del>算法</del> (等我学完数据结构就来干掉你)</li>
+</ul>
+</blockquote>
+<hr>
+<p><code>System.out.printf(&quot;害 加油吧！&quot;);</code><br>对了,以后写博客用<a href="https://editor.csdn.net/md/" target="_blank" rel="noopener">CSDN的markdown编辑器</a>就方便多了 哈哈哈！</p>
+<p><img src="http://suo.im/5DQBDm" alt="图片"></p>
+]]></content>
+      <categories>
+        <category>小作文</category>
+      </categories>
+      <tags>
+        <tag>随记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java IO流</title>
+    <url>/2020/05/24/IO/</url>
+    <content><![CDATA[<h2 id="Java-IO流"><a href="#Java-IO流" class="headerlink" title="Java IO流"></a>Java IO流</h2><p>对这个的分类太迷了，因此对其内容进行整理一下。</p>
+<p><strong>IO流可以按数据类型分为字节流和字符流:</strong></p>
+<blockquote>
+<p>1.字符流（<em>Writer/Reader</em>）处理的单元为2个字节的Unicode字符，分别操作字符、字符数组或字符串。<br>2.字节流（<em>OutputStream/InputStream</em>）处理单元为1个字节，操作字节和字节数组。<br>3.字节流可用于任何类型<br>4.字符流只能处理字符或者字符串。<br>5.字节流在操作的时候本身是不会用到缓冲区的，是与文件本身直接操作的，所以字节流在操作文件时，即使不关闭资源，文件也能输出。<br>6.字符流在操作的时候是使用到缓冲区的。如果字符流不调用close或flush方法，则不会输出任何内容。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200524162513465.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200524162533601.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/2020052415510417.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200524155121745.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200524155032855.png" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>IO流</tag>
+      </tags>
+  </entry>
+</search>
